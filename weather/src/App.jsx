@@ -1,0 +1,92 @@
+import { useState, useRef, useEffect } from 'react'
+import './App.css'
+import CityList from "./components/CityList.jsx"
+import CityForecast from "./components/CityForecast.jsx"
+import data from "./data.js"
+
+function App() {
+  const [sel, setSel] = useState(null)
+  const [foc, setFoc] = useState(false)
+  const inputRef = useRef(null)
+  useEffect(()=>{if(foc){inputRef.current.scrollIntoView();setFoc(false)}},[foc])
+  return (
+    <>
+    <CityList data = {data} sel = {sel} setSel = {setSel}/>
+    <button key = "St. Louis" onClick = {() => setSel("St. Louis")}>St. Louis</button>
+    {(sel === null)?<p>Please select a city</p>:!(sel in data)?<p>Invalid City Name!</p>:<CityForecast city = {sel} data = {data} inputRef = {inputRef} setFoc = {setFoc}/>}
+    </>
+  )
+}
+
+export default App
+/*
+Instructions
+
+You will create a React application where:
+  1. The main page lists a few city options (e.g., "New York," "London," "Tokyo").
+  2. Clicking on a city displays the forecast for that city below the list.
+  3. The forecast component fetches mock weather data for the selected city using useEffect when the city changes.
+  4. The application includes a button to scroll to the detailed weather section using useRef.
+
+This activity will help students combine and practice useEffect and useRef.
+
+
+Tasks:
+
+Step 1: Set Up the Application
+
+File Structure:
+  ● App.jsx: Main component that manages the selected city and displays the CityList and CityForecast components.
+  ● CityList.jsx: Component to list cities and handle user selection.
+  ● CityForecast.jsx: Component to display the forecast for the selected city.
+
+
+
+Step 2: Create Mock Weather Data
+
+Define mock data to simulate weather details:
+const weatherData = {
+  NewYork: {
+    summary: "Sunny, 25°C",
+    details: "Clear skies throughout the day with mild temperatures.",
+  },
+  London: {
+    summary: "Cloudy, 18°C",
+    details: "Overcast with occasional light rain in the afternoon.",
+  },
+  Tokyo: {
+    summary: "Rainy, 22°C",
+    details: "Continuous rain expected throughout the day.",
+  },
+};
+
+
+
+Step 3: Create the CityList Component
+
+The component displays a list of cities and calls a function when a city is clicked.
+
+
+
+Step 4: Create the CityForecast Component
+
+1. The component receives the selected city as a prop.
+2. Use useEffect to simulate fetching the weather data for the selected city.
+3. Use useRef to scroll to the detailed weather section when a "View Details" button is clicked.
+
+
+
+Step 5: Bring it all Together in App.jsx
+The main component should manage which city is selected and pass data to children.
+
+
+
+Extensions
+● Handle Invalid City Names:
+  Display a fallback message if the selected city does not match any entry in weatherData.
+● Add a Back Button:
+  In CityForecast, add a button that clears the selected city so the user can return to the city list view.
+● Style the Application:
+  Use CSS to improve the layout and appearance of the city list and forecast pages.
+
+*/
